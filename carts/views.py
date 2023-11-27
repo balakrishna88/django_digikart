@@ -3,10 +3,14 @@ from store.models import Product, Variation
 from carts.models import Cart, CartItem
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
+
+
+
 def _cart_id(request):
-    cart =  request.session.session_key
+    cart = request.session.session_key
     if not cart:
-        cart = request.session.session_key()
+        request.session.create()
+        cart = request.session.session_key
     return cart
 
 def add_cart(request, product_id):
